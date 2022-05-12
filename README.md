@@ -40,3 +40,6 @@ We compiled our files in a .exe file to make things more compact, tho if you don
 
 ### How much time for an hit?
 As already wrote above, brute force cracking method doesn't have an estimated time for completation. It may takes a long time as it may take a very short time.
+
+
+### DISCORD: https://discord.gg/ZbmNGtnU2e
