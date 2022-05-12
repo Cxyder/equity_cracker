@@ -14,7 +14,8 @@ No malware, No spyware, No keylogger and other naughty stuff. Don't you trust us
 Enjoy the real speed of light, increase your hit chance, lower any delay!
 
 
-# [<b>DOWNLOAD NOW</b>]()
+# [<b>WINDOWS: DOWNLOAD NOW</b>]()
+# [<b>LINUX / MAC: SOURCE CODE</b>]()
 
 ‎ 
 
