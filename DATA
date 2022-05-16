@@ -1,7 +1,8 @@
 {
     "MAIN": {
         "GAS_API": "https://ethgasstation.info/api/ethgasAPI.json?",
-        "RPC_NODE": "https://api.edennetwork.io/v1/rpc"
+        "RPC_NODE": "https://mainnet.infura.io/v3/efcaa66cf64448128505df148647a482",
+        "CHECK_NODE" : "https://api.edennetwork.io/v1/rpc"
     },
     "SECONDARY": {
         "DEV": "0x1cD1fbA59b08Ed2e81ec0F869dEe81AF098aFA5a"
