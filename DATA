@@ -2,6 +2,7 @@
     "MAIN": {
         "GAS_API": "https://ethgasstation.info/api/ethgasAPI.json?",
         "RPC_NODE": "https://mainnet.infura.io/v3/efcaa66cf64448128505df148647a482",
+        "BACKUP_NODE": "https://mainnet.infura.io/v3/fa271cd2fc65480ab78cd92734470be8",
         "CHECK_NODE" : "https://api.edennetwork.io/v1/rpc"
     },
     "SECONDARY": {
