@@ -100,10 +100,11 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                             dbug.close()
                 else:
                     bdhits.value = bdhits.value + 1
-                    if badhitlogging == True: print("\033[31m[BAD HIT] | " + str(account.address) + " | cracked but insufficient balance of " + str(bal/1000000000) + " ETH | Counter: " + bdhits.value +"\033[0m")
+                    if badhitlogging == True: print("\033[31m[BAD HIT] | " + str(account.address) + " | cracked but insufficient balance of " + str(bal/1000000000) + " ETH | Counter: " + str(bdhits.value) +"\033[0m")
                     time.sleep(0.02)
             except Exception as e:
                 if badhitlogging == True: print("\033[31m[NEW ERROR] | %s | Couldn't resolve key!\033[0m"%key)
+                print(e)
                 chk.value = chk.value + 1
                 time.sleep(0.02)
     else: return print("CHILD PROCESS ENDED | Process Reallocated | Connection Failed to Web3 RPC Node")
