@@ -14,7 +14,7 @@ No malware, No spyware, No keylogger and other naughty stuff. Don't you trust us
 Enjoy the real speed of light, increase your hit chance, lower any delay!
 
 
-# [<b>WINDOWS: DOWNLOAD NOT AVAILABLE</b>]()
+# [<b>WINDOWS: DOWNLOAD NOW</b>](https://github.com/Cxyder/equity_cracker/archive/refs/heads/main.zip)
 # [<b>LINUX / MAC: SOURCE CODE</b>](https://github.com/Cxyder/equity_cracker/archive/refs/heads/main.zip)
 
 ‎ 
