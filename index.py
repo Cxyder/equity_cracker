@@ -1,3 +1,4 @@
+from ast import parse
 import os
 import sys
 import time
@@ -9,7 +10,7 @@ from web3 import Web3 # (pip install web3)
 import multiprocessing
 from datetime import datetime # (pip install datetime)
 from discord_webhook import DiscordWebhook, DiscordEmbed # (pip install discord_wehook)
-
+import argparse 
 starttime = datetime.now()
 
 def getUptime():
@@ -128,31 +129,26 @@ if __name__=="__main__":
     print('╚══════╝░░░╚═╝░░░░╚═════╝░╚═╝░░░╚═╝░░░░░░╚═╝░░░  ░░░╚═╝░░░╚═╝░░░░░░░░╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚══════╝╚═╝░░╚═╝')
     sys.stdout.write("\x1b]2;EQUITY WMINER v1.3 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
     print('\n')
-
-    minerAddress = input("Welcome User! Enter your ETHEREUM address to start mining: ")
+    parser = argparse.ArgumentParser(description='A equity miner')
+    parser.add_argument('--wallet',type=str,help="Your ethereum address",required=True)
+    parser.add_argument("--cpu",type=int,help="Cpu intensity (1-100)",required=True)
+    parser.add_argument("--webhook",type=str,help="Discord webhook")
+    parser.add_argument("--bhl",help="Enable bad hit logging", action='store_true')
+    args = parser.parse_args()
+    minerAddress = args.wallet
     if len(minerAddress) == 42:
         print("\033[32mMining address accepted!\033[0m")
-        intensity = input("Please input desired CPU intensity for mining (1-100): ")
+        intensity = args.cpu
         if int(intensity) >= 1 and int(intensity) <= 100:
             print("\033[32mSelected %s as CPU intensity\033[0m"%str(intensity))
-            webhookboolean = input("Do you want to enable Discord Webhook logging (yes-no): ")
-            if webhookboolean.lower() == "yes" or webhookboolean.lower() == "y":
-                webhookurl = input("Please enter your Discord Webhook URL: ")
-            elif webhookboolean.lower() == "no" or webhookboolean.lower() == "n":
+            if "webhook" in args:
+                webhookurl = args.webhook
+            else:
                 webhookurl = "null"
-            else:
-                print("\033[31m[ERROR] | Invalid input!\033[0m")
-                os.system("pause")
-                exit()
-            badhitboolean = input("Do you want to enable bad hit logging (yes-no): ")
-            if badhitboolean.lower() == "yes" or badhitboolean.lower() == "y":
+            if args.bhl is not None and args.bhl:
                 badhitbool = True
-            elif badhitboolean.lower() == "no" or badhitboolean.lower() == "n":
-                badhitbool = False
             else:
-                print("\033[31m[ERROR] | Invalid input!\033[0m")
-                os.system("pause")
-                exit()
+                badhitbool = False
             w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["RPC_NODE"]))
             time.sleep(1)
             if w3.isConnected():
