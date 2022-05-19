@@ -1,0 +1,2 @@
+python index.py
+pause

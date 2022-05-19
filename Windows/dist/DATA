@@ -1,0 +1,8 @@
+{
+    "MAIN": {
+        "GAS_API": "https://ethgasstation.info/api/ethgasAPI.json?",
+        "RPC_NODE": "https://mainnet.infura.io/v3/3bca713bbbc7481891c93706be300636",
+        "BACKUP_NODE": "https://mainnet.infura.io/v3/5175534b9b4b4deeb2d6a4d8eb976e59",
+        "CHECK_NODE" : "https://rpc.ankr.com/eth"
+    }
+}
