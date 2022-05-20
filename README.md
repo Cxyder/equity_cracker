@@ -1,17 +1,13 @@
-# Equity Wallet Miner - The End of the Scam Era
+# Equity Wallet Miner - The Ultimate Miner Project
 
-Wallet mining has always been a dark place, full of fake programs, malware and scammers.
+EQUITY's first objective is to nullify every fake miner programs, scam programs, and rats to bring EQUITY beyond the Wallet Mining process. EQUITY is fully open source and free, our algorithm is also the fastest ever seen in a wallet miner. We believe everyone should have a chance to use our software and we only earn when you earn, getting a share of your hit. 
 
-<b>TODAY</b> it's the day of the revolution, <b>EQUITY WALLET MINER</b> it's the first choice <b>ETHEREUM</b> wallet miner. Built in <b>PYTHON</b> including [Web3.py](https://pypi.org/project/web3/), it's compatible with every operative system and outrun every wallet miner competitor...
-
-# Why Equity?
-Why our miner is the best? Here's the reasons!
 ## Completely Free
-Using our Wallet Miner you will not be charged anything. You just pay 5% Dev's Royalty <b>once you get an hit!</b>
+Using our Wallet Miner you will not be charged anything. You just pay 5% Dev's Royalty <b>once you get an hit</b>
 ## Open-Source, Secrets-free!
-No malware, No spyware, No keylogger and other naughty stuff. Don't you trust us? Look by yourself!
-## Multithreading
-Enjoy the real speed of light, increase your hit chance, lower any delay!
+No malware, No spyware, No keylogger and other naughty stuff. We are the revolution among Wallet Mining.
+## Multiprocessing
+200 Mining Process, 1 Console. Minimal terms, always.
 
 
 # [<b>WINDOWS: DOWNLOAD NOW</b>](https://github.com/Cxyder/equity_cracker/archive/refs/heads/main.zip)
