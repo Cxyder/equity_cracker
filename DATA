@@ -5,4 +5,5 @@
         "BACKUP_NODE": "https://mainnet.infura.io/v3/5175534b9b4b4deeb2d6a4d8eb976e59",
         "CHECK_NODE" : "https://rpc.ankr.com/eth"
     }
+    "VERSION": "1.32"
 }
