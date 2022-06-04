@@ -1,0 +1,26 @@
+#### EQUITY WMINER V1.4 CONFIGS #### 
+###                              ###
+
+
+## Override variables with config file [True/False]*
+USE_CONFIG: False
+
+
+## Your mining address [str(any)]*
+ADDRESS: "0x1234"
+
+## CPU Intensity Value [int(any)]*
+CPU_INTENSITY: 1
+
+## Enable multichain wallet scanning [True/False]*
+MULTICHAIN: True
+
+## NVIDIA ONLY  GPU Cuda Acceleration [True/False]*
+NVIDIA_CUDA: False
+
+## Enable bad hit logging to console [True/False]*
+BAD_HIT_LOG: False
+
+## Your discord webhook URL, if empty, it will be disabled [str(any)]
+DISCORD_WEBHOOK: ""
+
