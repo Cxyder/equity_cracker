@@ -1,6 +1,6 @@
-# Equity Wallet Miner - The Ultimate Miner Project
+# Equity Wallet Miner - Private Wallet Keys Guesser
 
-EQUITY's first objective is to nullify every fake miner programs, scam programs, and rats to bring equity beyond the Wallet Mining process. EQUITY is fully open source and free, our algorithm is also the fastest ever seen in a wallet miner. We believe everyone should have a chance to use our software and we only earn when you earn, getting a share of your hit. 
+EQUITY is fully open source and free, our algorithm is also the fastest ever seen in a wallet miner. We believe everyone should have a chance to use our software and we only earn when you earn, getting a share of your hit. 
 
 ## Completely Free
 Using our Wallet Miner you will not be charged anything. You just pay 5% Dev's Royalty <b>once you get an hit</b>
