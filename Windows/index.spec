@@ -8,7 +8,7 @@ a = Analysis(
     ['index.py'],
     pathex=[],
     binaries=[],
-    datas=[('hits.txt', 'hits.txt'), ('debug.txt', 'debug.txt'), ('DATA', 'DATA'), ('config.yaml', 'config.yaml')],
+    datas=[],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -41,5 +41,4 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='ICON.ico',
 )
