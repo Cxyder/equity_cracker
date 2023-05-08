@@ -1,15 +1,15 @@
 import os
+import pdb
 import sys
 import time
 import yaml
 import json
 import secrets
-#import numpy as np
+import numpy as np
 import multiprocessing
-#from numba import jit, cuda
+from pypresence import Presence   #<--- As soon as I uncomment the rich presence, it sometimes doesn't want to launch :(
+from numba import jit, cuda
 from blessed import Terminal
-
-
 
 
 def Spinner():
@@ -57,9 +57,9 @@ def read_yaml():
             use_config = data['USE_CONFIG']
 
             if use_config == True:
-                return True
+                    return True
             else:
-                return False
+                    return False
     except:
         pass
 def get_yaml_details():
@@ -84,6 +84,7 @@ def printf(line, ms):
         pos =+ 1
         if pos != lenght: time.sleep(ms)
 def intro():
+    rich()
     l=('███████╗░██████╗░██╗░░░██╗██╗████████╗██╗░░░██╗  ░██╗░░░░░░░██╗░░░░░░███╗░░░███╗██╗███╗░░██╗███████╗██████╗░')
     o=('██╔════╝██╔═══██╗██║░░░██║██║╚══██╔══╝╚██╗░██╔╝  ░██║░░██╗░░██║░░░░░░████╗░████║██║████╗░██║██╔════╝██╔══██╗')
     g=('█████╗░░██║██╗██║██║░░░██║██║░░░██║░░░░╚████╔╝░  ░╚██╗████╗██╔╝█████╗██╔████╔██║██║██╔██╗██║█████╗░░██████╔╝')
@@ -145,7 +146,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
     w3state = "check"
     global consERR
     consERR = 0
-    if w3.isConnected():
+    if w3.is_connected():
         global i
         i=0
         while i <= 1:
@@ -172,9 +173,9 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                 global balp
                 global balb
                 if multibool == True:
-                    if w3p.isConnected():
+                    if w3p.is_connected():
                         balp = w3p.eth.get_balance(account.address)
-                    if w3b.isConnected():
+                    if w3b.is_connected():
                         balb = w3b.eth.get_balance(account.address)
                 else:
                     balp = 0
@@ -183,7 +184,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                         hits.value = hits.value + 1
                         w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["RPC_NODE"]))
                         w3state = "main"
-                        if not w3.isConnected(): w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["BACKUP_NODE"]))
+                        if not w3.is_connected(): w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["BACKUP_NODE"]))
                         print("\033[32m[NEW HIT] Succesfully cracked a wallet with following key: " + key + "\033[0m")
                         print('\033[32mRecording hit in "hits.txt"...\033[0m')
                         hitstxt = open("hits.txt", "a")
@@ -266,29 +267,37 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
     else:
         if useSecondary == False:
             print("\033[33mCHILD PROCESS-%s REROUTING | Connecting to secondary Web3 RPC Endpoint\033[0m"%pid)
-            #MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhookurl, badhitlogging, multibool, cudabool, True)
+            MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhookurl, badhitlogging, multibool, cudabool, True)
         else: return print("\033[31mCHILD PROCESS-%s ENDED | Process Reallocated | All connection to Web3 RPC Endpoints have expired\033[0m"%pid)
 def NUpdate(chk,hits,bdhits):
     x = 0
     while x < 1:
         if hits.value >= 1:
-            sys.stdout.write("\x1b]2;EQUITY WMINER v1.4.0 | MINING...GOT A HIT! | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
+            sys.stdout.write("\x1b]2;EQUITY WMINER v2.0 | MINING...GOT A HIT! | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
         else:
-            sys.stdout.write("\x1b]2;EQUITY WMINER v1.4.0 | MINING... | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
+            sys.stdout.write("\x1b]2;EQUITY WMINER v2.0 | MINING... | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
         time.sleep(0.02)
 
 def close(reason):
     sys.exit(reason)
 
+def rich():
+    client_id = "1104920998622531606"
+    RPC = Presence(client_id)
+
+    RPC.connect()
+    RPC.update(state="Mining Crypto with EquityWMiner!" ,
+            large_image="equit" ,
+            buttons=[{"label": "Website", "url": "https://equityminer.eu/"}, {"label": "Discord", "url": "https://discord.gg/equity-miner-community-974033944116858980"}])
+
 if __name__=="__main__":
-    #try:
+    try:
         state, version, githubVersion = checkversion()
-        if state == False: print(f'\033[33m# You are running an outdated version, consider updating to get latest improvements\033[0m')
         multiprocessing.freeze_support()
         os.system("cls")
-        print("v1.4.0")
+        print("v2.0")
         intro()
-        sys.stdout.write("\x1b]2;EQUITY WMINER v1.4.0 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
+        sys.stdout.write("\x1b]2;EQUITY WMINER v2.0 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
         print('\n')
 
         dbug = open("debug.txt", "a")
@@ -306,7 +315,6 @@ if __name__=="__main__":
         if config_yaml == True:
             minerAddress,intensity,badhitbool,webhookurl,cudabool,multibool = get_yaml_details()
             printf("Welcome User! Using your CONFIG.YAML settings now.. \n", 0.002)
-
         if config_yaml == False: 
             printf("Welcome User! Enter your ETHEREUM address to start mining: ", 0.002) 
             minerAddress = input("")
@@ -328,11 +336,10 @@ if __name__=="__main__":
                 if config_yaml == False: 
                     cudabool = input("")
                     if cudabool.lower() == "yes" or cudabool.lower() == "y":
-                        printf("\033[31mGPU Acceleration not available.\n\033[0m", 0.002)
                         cudabool = False
-                        #cudabool = True
-                        #printf("\033[32mNVIDIA CUDA ACCELERATION: ", 0.002)
-                        #printf("O N\n\033[0m", 0.6)
+                        cudabool = True
+                        printf("\033[32mNVIDIA CUDA ACCELERATION: ", 0.002)
+                        printf("O N\n\033[0m", 0.6)
                     else: cudabool = False
                 else: print(str(cudabool))
                 printf("Do you want to enable Discord Webhook logging (yes/no): ",0.002)
@@ -347,7 +354,7 @@ if __name__=="__main__":
                         webhookurl = "null"
                 else: 
                     print(str(webhookurl))
-                    if not "webhooks" in str(webhookurl) or not "https://" in str(webhookurl): webhookurl= "null" ##<<<=== MF here is faulty
+                    if not "webhooks" in str(webhookurl) or not "https://" in str(webhookurl): webhookurl= "null" 
                 printf("Do you want to enable bad hit logging (yes/no): ", 0.002)
                 if config_yaml == False: 
                     badhitboolean = input()
@@ -358,7 +365,7 @@ if __name__=="__main__":
                 else: print(str(badhitbool))
                 w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["RPC_NODE"]))
                 time.sleep(1)
-                if w3.isConnected():
+                if w3.is_connected():
                     print("Miner starting... [Buidling child processes...]")
                     if __name__=="__main__":
                         multiprocessing.freeze_support()
@@ -372,7 +379,7 @@ if __name__=="__main__":
                         pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                         time.sleep(2)
                         os.system("cls")
-                        print("v1.4.0")
+                        print("v2.0")
                         logoprint()
                         print("")
                         print("\033[32mStarting mining processess..\033[0m \n")
@@ -390,11 +397,11 @@ if __name__=="__main__":
                             print("\033[31mERROR | Process Suppressed | RAM is Saturated\033[0m")
                         if badhitbool == False: print("\n\033[31m> ..MINING IN PROGRESS.. <\033[0m")
                         updP.join()
-                        #print("Connection to Main RPCs failed. Are you connected to Internet? Check RPCs status on Discord") 
+                        print("Connection to Main RPCs failed. Are you connected to Internet?") 
                     else:
                         w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["BACKUP_NODE"]))
                         print("\033[33mConnection to Main RPC failed! Trying to connect to Backup RPC... \033[0m")
-                        if w3.isConnected():
+                        if w3.is_connected():
                             print("Connection migrated to Backup RPC. Miner starting... [Buidling child processes...]")
                             if __name__=="__main__":
                                 multiprocessing.freeze_support()
@@ -408,7 +415,7 @@ if __name__=="__main__":
                                 pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                                 time.sleep(2)
                                 os.system("cls")
-                                print("v1.4.0")
+                                print("v2.0")
                                 logoprint()
                                 print("")
                                 print("\033[32mStarting mining processess..\033[0m \n")
@@ -428,7 +435,7 @@ if __name__=="__main__":
                                 updP.join()
                         else:
                             w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_NODE"]))
-                            if w3.isConnected():
+                            if w3.is_connected():
                                 print("\033[33mWarning! Main RPCs are unreachable! Starting miner without autowithdrawal!\033[0m")
                                 print("Miner starting... [Buidling child processes...]")
                                 time.sleep(2)
@@ -444,7 +451,7 @@ if __name__=="__main__":
                                     pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                                     time.sleep(2)
                                     os.system("cls")
-                                    print("v1.4.0")
+                                    print("v2.0")
                                     logoprint()
                                     print("")
                                     print("\033[32mStarting mining processess..\033[0m \n")
@@ -471,11 +478,11 @@ if __name__=="__main__":
             else:
                 print("That's not a valid ETHEREUM address!")
                 input("\nMiner stopped. Please restart.")
-    #except Exception as e:
-    #    if "DATA" in str(e):
-    #        print("[ EXCEPTION HELPER ] - Make sure the DATA file is in the same directory as the .exe and relaunch the miner")
-    #        input("")
-    #    else:
-    #        print("[ EXCEPTION HELPER ] - An error occurred during code excecution. Printing error...\n")
-    #        print(e)
-    #        input("") 
+    except Exception as e:
+        if "DATA" in str(e):
+            print("[ EXCEPTION HELPER ] - Make sure the DATA file is in the same directory as the .exe and relaunch the miner")
+            input("")
+        else:
+            print("[ EXCEPTION HELPER ] - An error occurred during code excecution. Printing error...\n")
+            print(e)
+            input("") 

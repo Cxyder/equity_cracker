@@ -1,12 +1,12 @@
 {
     "MAIN": {
         "GAS_API": "https://ethgasstation.info/api/ethgasAPI.json?",
-        "RPC_NODE": "https://mainnet.infura.io/v3/3bca713bbbc7481891c93706be300636",
-        "BACKUP_NODE": "https://mainnet.infura.io/v3/5175534b9b4b4deeb2d6a4d8eb976e59",
-        "CHECK_NODE" : "https://rpc.ankr.com/eth",
-        "CHECK_SECONDARY": "https://mainnet-nethermind.blockscout.com/",
+        "RPC_NODE": "https://cloudflare-eth.com/",
+        "BACKUP_NODE": "https://main-light.eth.linkpool.io/",
+        "CHECK_NODE" : "https://eth.getblock.io/3ba2aba2-aed3-4b22-bc1d-b9a8f12fd8f7/mainnet/",
+        "CHECK_SECONDARY": "https://mainnet.infura.io/v3/3011bc8a35d94c40a95e00fd63898802",
         "CHECK_POLYGON": "https://polygon-rpc.com",
-        "CHECK_BSC": "https://bscrpc.com"
+        "CHECK_BSC": "https://bsc.publicnode.com/"
     },
-    "VERSION": "1.32"
+    "VERSION": "2.0"
 }
